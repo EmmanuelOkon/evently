@@ -1,5 +1,3 @@
-import { startTransition, useEffect, useState } from "react";
-
 import {
   Select,
   SelectContent,
@@ -8,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ICategory } from "@/lib/database/models/category.model";
-
+import { startTransition, useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,10 +19,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "../ui/input";
-import { createCategory, getAllCategories } from "@/lib/actions/category.actions";
+import {
+  createCategory,
+  getAllCategories,
+} from "@/lib/actions/category.actions";
 
 type DropdownProps = {
-  value: string;
+  value?: string;
   onChangeHandler?: () => void;
 };
 
@@ -33,11 +34,11 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
   const [newCategory, setNewCategory] = useState("");
 
   const handleAddCategory = () => {
-   createCategory({
-     categoryName: newCategory.trim(),
-   }).then((category) => {
-     setCategories((prevState) => [...prevState, category]);
-   });
+    createCategory({
+      categoryName: newCategory.trim(),
+    }).then((category) => {
+      setCategories((prevState) => [...prevState, category]);
+    });
   };
 
   useEffect(() => {

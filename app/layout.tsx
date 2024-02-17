@@ -26,12 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body suppressHydrationWarning={true} className={poppins.className}>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <>
+      <ClerkProvider>
+        <html lang="en">
+          <body suppressHydrationWarning={true} className={poppins.className}>
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </>
   );
 }
