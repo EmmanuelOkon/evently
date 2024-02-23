@@ -29,7 +29,9 @@ import { useUploadThing } from "@/lib/uploadthing";
 import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "../ui/checkbox";
 import { useRouter } from "next/navigation";
-import { createEvent } from "@/lib/actions/event.actions";
+import { createEvent, updateEvent } from "@/lib/actions/event.actions";
+import { toast } from "sonner";
+import { notifySuccess, notifyError } from "../shared/Toast";
 
 type EventFormProps = {
   userId: string;
@@ -40,7 +42,14 @@ type EventFormProps = {
 
 const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([]);
-  const initialValues = eventDefaultValues;
+  const initialValues =
+    event && type === "Update"
+      ? {
+          ...event,
+          startDateTime: new Date(event.startDateTime),
+          endDateTime: new Date(event.endDateTime),
+        }
+      : eventDefaultValues;
 
   const router = useRouter();
 
@@ -75,14 +84,55 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         });
 
         if (newEvent) {
+          notifySuccess("New Event Created", {
+            position: "top-right",
+            autoClose: 3000,
+            pauseOnHover: false,
+          });
           form.reset();
           router.push(`/events/${newEvent._id}`);
         }
+      } catch (error) { 
+        notifyError("Error Creating Event", {
+          position: "top-right",
+          autoClose: 3000,
+          pauseOnHover: false,
+          })
+        console.error(error);
+      }
+    }
+    if (type === "Update") {
+      if (!eventId) {
+        router.back();
+        return;
+      }
+      try {
+        const updatedEvent = await updateEvent({
+          userId,
+          event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+          path: `/events/${eventId}`,
+        });
+
+        if (updatedEvent) {
+          notifySuccess("Event Updated successfully", {
+            position: "top-right",
+            autoClose: 3000,
+            pauseOnHover: false,
+          });
+          form.reset();
+          router.push(`/events/${updatedEvent._id}`);
+        }
       } catch (error) {
+        notifyError("Error Updating Event", {
+          position: "top-right",
+          autoClose: 3000,
+          pauseOnHover: false,
+        });
         console.error(error);
       }
     }
   }
+
 
   return (
     <Form {...form}>
@@ -338,7 +388,11 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full"
         >
-          {form.formState.isSubmitting ? "Submitting..." : `${type} Event `}
+          {form.formState.isSubmitting
+            ? type === "Create"
+              ? "Creating..."
+              : "Updating..."
+            : `${type} Event`}
         </Button>
       </form>
     </Form>
