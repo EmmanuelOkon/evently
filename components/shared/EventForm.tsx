@@ -30,7 +30,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "../ui/checkbox";
 import { useRouter } from "next/navigation";
 import { createEvent, updateEvent } from "@/lib/actions/event.actions";
-import { toast } from "sonner";
+
 import { notifySuccess, notifyError } from "../shared/Toast";
 
 type EventFormProps = {
@@ -62,7 +62,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
     console.log(values);
-    // const formData = values;
 
     let uploadedImageUrl = values.imageUrl;
 
