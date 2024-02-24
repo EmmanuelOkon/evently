@@ -112,6 +112,12 @@ export type CheckoutOrderParams = {
   buyerId: string;
 };
 
+export type GetTicketsByUserParams = {
+  eventTitle: string;
+  eventId: string;
+  buyerId: string;
+};
+
 export type CreateOrderParams = {
   stripeId: string;
   eventId: string;

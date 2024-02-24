@@ -6,6 +6,7 @@ import {
   CreateOrderParams,
   GetOrdersByEventParams,
   GetOrdersByUserParams,
+  GetTicketsByUserParams,
 } from "@/types";
 import { redirect } from "next/navigation";
 import { handleError } from "../utils";
@@ -162,6 +163,22 @@ export async function getOrdersByUser({
       data: JSON.parse(JSON.stringify(orders)),
       totalPages: Math.ceil(ordersCount / limit),
     };
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function hasUserBoughtTicket({
+  eventTitle,
+  buyerId,
+  eventId,
+}: GetTicketsByUserParams) {
+  try {
+    await connectToDatabase();
+
+    const paidEvent = await Order.findOne({ eventTitle, buyerId, eventId });
+
+    return !!paidEvent;
   } catch (error) {
     handleError(error);
   }

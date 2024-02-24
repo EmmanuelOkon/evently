@@ -59,7 +59,7 @@ const EventDetails = async ({
                 </div>
               </div>
 
-              <CheckoutButton event={event} />
+              <CheckoutButton event={event}  />
 
               <div className="flex flex-col gap-5">
                 <div className="flex flex-col gap-2 md:gap-3">
@@ -117,9 +117,6 @@ const EventDetails = async ({
       {/* EVENTS with the same category */}
       <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
         <h2 className="h2-bold">Related Events</h2>
-        <div>
-          <p>Related events will go here</p>
-        </div>
 
         <Collection
           data={relatedEvents?.data}
