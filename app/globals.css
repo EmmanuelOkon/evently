@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap");
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -74,7 +76,8 @@
 }
 
 body {
-  font-family: var(--font-poppins)
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
 }
 
 .filter-grey {
@@ -250,7 +253,7 @@ body {
 .cl-formButtonPrimary:hover,
 .cl-formButtonPrimary:focus,
 .cl-formButtonPrimary:active {
-  background-color: #705CF7
+  background-color: #705cf7;
 }
 
 /* ========================================== REACT-DATEPICKER STYLES */
